@@ -1,23 +1,37 @@
-import logo from './logo.svg';
+
+import { useState } from 'react';
 import './App.css';
+import foods from "./foods.json";
+import FoodBox from './components/FoodBox';
+import AddFoodForm from './components/AddFoodForm';
 
 function App() {
+
+  const [ foodList, setFoodList ] = useState(foods)
+  const [filteredFood, setFilteredFood] = useState(foods);
+
+  
+  const nuevoProduct = (newProduct) => {
+    
+    
+    setFoodList([...foodList, newProduct])
+    setFilteredFood([...foodList, newProduct])
+  }
+  const clone = JSON.parse(JSON.stringify(foodList))
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+   
+    <h2>LISTA DE PRODUCTOS</h2>
+
+    <div className='cardContainer'>
+    {clone.map((eachProduct, index)=>{
+      return(
+        <FoodBox key={index} food={eachProduct} /> 
+      )
+    })}
+    </div>
+     <AddFoodForm nuevoProduct={nuevoProduct} />
+
     </div>
   );
 }
